@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mi Perfil</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Roboto', sans-serif;
+    }
+    body {
+      background: black;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .glitch-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .glitch-bg::before,
+    .glitch-bg::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background: repeating-linear-gradient(0deg, #0f0 0px, #000 1px, #000 2px);
+      opacity: 0.1;
+      mix-blend-mode: screen;
+      animation: glitch 1s infinite linear alternate-reverse;
+    }
+
+    .glitch-bg::after {
+      background: repeating-linear-gradient(0deg, #f00 0px, #000 1px, #000 2px);
+      animation-delay: 0.5s;
+    }
+
+    @keyframes glitch {
+      0% {
+        transform: translate(0, 0);
+      }
+      20% {
+        transform: translate(-5px, -2px);
+      }
+      40% {
+        transform: translate(5px, 2px);
+      }
+      60% {
+        transform: translate(-3px, 1px);
+      }
+      80% {
+        transform: translate(3px, -1px);
+      }
+      100% {
+        transform: translate(0, 0);
+      }
+    }
+
+    @keyframes mild-shake {
+      0%,
+      100% {
+        transform: translate(0, 0);
+      }
+      25% {
+        transform: translate(-1px, 1px);
+      }
+      50% {
+        transform: translate(1px, -1px);
+      }
+      75% {
+        transform: translate(-1px, 0);
+      }
+    }
+
+    .profile-card {
+      background-color: #111;
+      border-radius: 20px;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+      width: 90%;
+      max-width: 600px;
+      transition: transform 0.2s ease-out;
+      z-index: 1;
+      animation: mild-shake 0.5s infinite;
+    }
+
+    .profile-card.moving {
+      animation: none;
+    }
+
+    .profile-card img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin-bottom: 1rem;
+      border: 2px solid white;
+      object-fit: cover;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .profile-card h1 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .profile-card p {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      color: #ccc;
+    }
+
+    .social-links a {
+      color: white;
+      margin: 0 0.5rem;
+      font-size: 1.5rem;
+      transition: color 0.3s;
+    }
+
+    .social-links a:hover {
+      color: #1da1f2;
+    }
+  </style>
+</head>
+<body>
+  <div class="glitch-bg"></div>
+  <div class="profile-card" id="profileCard">
+    <img src="OIP.mCOsreyiBT9Y__CqCnzH2gAAAA.png" alt="Mi Avatar" />
+    <h1>skriptDoodlet</h1>
+    <p>
+      Wsp, hello to mi profile, here you can see my social media. Also i made
+      this web too PD: I was bored. Anyways if you want a profile like me, text
+      me.
+    </p>
+    <div class="social-links">
+      <a href="https://discord.com" target="_blank" title="Discord"
+        ><i class="fab fa-discord"></i
+      ></a>
+      <a href="https://x.com" target="_blank" title="Twitter / X"
+        ><i class="fab fa-x-twitter"></i
+      ></a>
+      <a href="https://youtube.com" target="_blank" title="YouTube"
+        ><i class="fab fa-youtube"></i
+      ></a>
+    </div>
+  </div>
+
+  <script>
+    const card = document.getElementById('profileCard');
+    let timeoutId;
+
+    function moveCard(x, y) {
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+      const offsetX = (x - centerX) * 0.02;
+      const offsetY = (y - centerY) * 0.02;
+      card.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+      card.classList.add('moving');
+
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        card.classList.remove('moving');
+        card.style.transform = 'none';
+      }, 0100); // Vuelve al temblor después de 2s sin mover el cursor/dedo
+    }
+
+    document.addEventListener('mousemove', (e) => moveCard(e.clientX, e.clientY));
+
+    document.addEventListener('touchmove', (e) => {
+      if (e.touches.length > 0) {
+        moveCard(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    });
+  </script>
+</body>
+</html>
